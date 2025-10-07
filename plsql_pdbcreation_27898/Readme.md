@@ -16,8 +16,8 @@ Task 2: Create and delete a PDB
 creation screenshot:[pdb_delete_creationscr](screenshots/pdb_delete_creationscr.png)
 		    [gr_to_delete_pdb_27898](screenshots/gr_to_delete_pdb_27898.png)
 
-deletion screenshot:[delete_pdb scr](screenshots/delete_pdb scr.png)
-		    [deleting_pdb scr](screenshots/deleting_pdb scr.png)
+deletion screenshot:[delete_pdb scr](screenshots/delete_pdb scr.png).	
+             [deleting_pdb scr](screenshots/deleting_pdb scr.png)
 
 
 Task 3: ORACLE ENTERPRISE MANAGER
@@ -51,6 +51,7 @@ CONCLUSION
 #Verified PDB access using SQL Developer when OEM could not display it.
 
 #Captured all required screenshots and documented steps and troubleshooting.
+
 
 
 
