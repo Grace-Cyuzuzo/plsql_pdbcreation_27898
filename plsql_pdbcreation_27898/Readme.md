@@ -8,9 +8,7 @@ Task 1: Creation of a new PDB
 
 	PDB  name: gr_pdb_27898
         PDB username: grace_plsqlauca_27898(with it's password)
-      Screenshots
-      [pdb_creation scr](screenshots/pdb_creation scr.png)
-      [user_creation scr](screenshots/user_creation scr.png)
+Screenshots:[pdb_creation scr](screenshots/pdb_creation scr.png),[user_creation scr](screenshots/user_creation scr.png)
 
 Task 2: Create and delete a PDB
 
@@ -34,6 +32,8 @@ PDB acces in SQL DEVELOPER
 	#Created a connection(plsql) with username (grace_plsqlauca_27898) and with the service name (gr_pdb_27898)
         Purpose: to show the PDB created and the user name in SQLDEVELOPER since it failed to be shown in teh OEM
 
+screenshot:[userand pdb](screenshots/userand pdb.png)
+
 
 ISSUES ENCOUNTERED AND THE SOLUTIONS MADE
 
@@ -51,5 +51,6 @@ CONCLUSION
 #Verified PDB access using SQL Developer when OEM could not display it.
 
 #Captured all required screenshots and documented steps and troubleshooting.
+
 
 
