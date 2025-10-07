@@ -37,8 +37,9 @@ screenshot:[userand pdb](screenshots/userand pdb.png)
 
 ISSUES ENCOUNTERED AND THE SOLUTIONS MADE
 
-Issue							solution
+Issue							                  solution
 PDB user could not log in OEM/DB Express		used SQLDEVELOPER to access the PDB user since the OEM/DB Express does not allow
+
 New PDB not showing in OEM				Verified listener registration and PDB service; still not visible due to XE limitation
 
 
@@ -51,6 +52,7 @@ CONCLUSION
 #Verified PDB access using SQL Developer when OEM could not display it.
 
 #Captured all required screenshots and documented steps and troubleshooting.
+
 
 
 
