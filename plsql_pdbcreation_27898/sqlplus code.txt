@@ -1,0 +1,264 @@
+Microsoft Windows [Version 10.0.19045.6332]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Windows\system32>sqlplus / as sysdba
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Tue Oct 7 17:25:53 2025
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 21c Express Edition Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+
+SQL> show con_name
+
+CON_NAME
+------------------------------
+CDB$ROOT
+SQL>
+SQL> -- creating a new pluggable database
+SQL>
+SQL> CREATE PLUGGABLE gr_pdb_27898
+  2  FILE_NAME_CONVERT = ('C:\OracleXE\oradata\XE\pdbseed\' , 'C:\OracleXE\oradata\XE\pdbseed\gr_pdb_27898\');
+CREATE PLUGGABLE gr_pdb_27898
+                 *
+ERROR at line 1:
+ORA-02000: missing DATABASE keyword
+
+
+SQL> CREATE PLUGGABLE DATABASE gr_pdb_27898
+  2  FILE_NAME_CONVERT = ('C:\OracleXE\oradata\XE\pdbseed\' , 'C:\OracleXE\oradata\XE\pdbseed\gr_pdb_27898\');
+FILE_NAME_CONVERT = ('C:\OracleXE\oradata\XE\pdbseed\' , 'C:\OracleXE\oradata\XE\pdbseed\gr_pdb_27898\')
+                                                                                                       *
+ERROR at line 2:
+ORA-00922: missing or invalid option
+
+
+SQL> CREATE PLUGGABLE DATABASE gr_pdb_27898
+  2  ADMIN USER pdb_admin IDENTIFIED BY pdadmin123
+  3  FILE_NAME_CONVERT = ('C:\OracleXE\oradata\XE\pdbseed\' , 'C:\OracleXE\oradata\XE\pdbseed\gr_pdb_27898\');
+
+Pluggable database created.
+
+SQL>
+SQL> --creating a user
+SQL> show pdbs
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB$SEED                       READ ONLY  NO
+         3 XEPDB1                         READ WRITE NO
+         4 GR_PDB_27898                   MOUNTED
+SQL> alter pluggable database gr_pdb_27898 open;
+
+Pluggable database altered.
+
+SQL> create user grace_plsqlauca_27898 identified by grace123
+  2  DEFAULT TABLESPACE users
+  3  TEMPORARY TABLESPACE temp
+  4  QOUTA UNLIMITED ON users;
+QOUTA UNLIMITED ON users
+*
+ERROR at line 4:
+ORA-00922: missing or invalid option
+
+
+SQL> create user grace_plsqlauca_27898 identified by grace123
+  2  DEFAULT TABLESPACE users
+  3  TEMPORARY TABLESPACE temp
+  4  QUOTA UNLIMITED ON users;
+create user grace_plsqlauca_27898 identified by grace123
+            *
+ERROR at line 1:
+ORA-65096: invalid common user or role name
+
+
+SQL>
+SQL> ALTER SESSION SET CONTAINER=gr_pdb_27898;
+
+Session altered.
+
+SQL> create user grace_plsqlauca_27898 identified by grace123
+  2  DEFAULT TABLESPACE users
+  3  TEMPORARY TABLESPACE temp
+  4  QUOTA UNLIMITED ON users;
+create user grace_plsqlauca_27898 identified by grace123
+*
+ERROR at line 1:
+ORA-00959: tablespace 'USERS' does not exist
+
+
+SQL> SELECT tablespace_name FROM dba_tablespaces;
+
+TABLESPACE_NAME
+------------------------------
+SYSTEM
+SYSAUX
+UNDOTBS1
+TEMP
+
+SQL>
+SQL>
+SQL> --creating user
+SQL> create user grace_plsqlauca_27898 identified by grace123
+  2  DEFAULT TABLESPACE system
+  3  TEMPORARY TABLESPACE temp
+  4  QUOTA UNLIMITED ON system;
+
+User created.
+
+SQL> GRANT CONNECT, RESOURCE TO grace_plsqlauca_27898;
+
+Grant succeeded.
+
+SQL> --creating pdb to delete
+SQL>
+SQL> create pluggable database gr_to_delete_pdb_27898
+  2  admin user pdbadmin_delete identified by delete123
+  3  file_name_covert = ('C:\OracleXE\oradata\XE\pdbseed\' , 'C:\OracleXE\oradata\XE\pdbseed\gr_to_delete_pdb_27898\');
+file_name_covert = ('C:\OracleXE\oradata\XE\pdbseed\' , 'C:\OracleXE\oradata\XE\pdbseed\gr_to_delete_pdb_27898\')
+*
+ERROR at line 3:
+ORA-00922: missing or invalid option
+
+
+SQL> create pluggable database gr_to_delete_pdb_27898
+  2  admin user pdbadmin_delete identified by delete123
+  3  FILE_NAME_CONVERT = ('C:\OracleXE\oradata\XE\pdbseed\' , 'C:\OracleXE\oradata\XE\gr_to_delete_pdb_27898\');
+create pluggable database gr_to_delete_pdb_27898
+*
+ERROR at line 1:
+ORA-65040: operation not allowed from within a pluggable database
+
+
+SQL> ALTER PLUGGABLE DATABASE gr_pdb_27898 CLOSE IMMEDIATE;
+
+Pluggable database altered.
+
+SQL> create pluggable database gr_to_delete_pdb_27898
+  2  admin user pdbadmin_delete identified by delete123
+  3  FILE_NAME_CONVERT = ('C:\OracleXE\oradata\XE\pdbseed\' , 'C:\OracleXE\oradata\XE\gr_to_delete_pdb_27898\');
+create pluggable database gr_to_delete_pdb_27898
+*
+ERROR at line 1:
+ORA-01109: database not open
+
+
+SQL> ALTER SESSION SET CONTAINER = CDB$ROOT;
+
+Session altered.
+
+SQL> ALTER DATABASE OPEN;
+ALTER DATABASE OPEN
+*
+ERROR at line 1:
+ORA-01531: a database already open by the instance
+
+
+SQL> create pluggable database gr_to_delete_pdb_27898
+  2  admin user pdbadmin_delete identified by delete123
+  3  FILE_NAME_CONVERT = ('C:\OracleXE\oradata\XE\pdbseed\' , 'C:\OracleXE\oradata\XE\gr_to_delete_pdb_27898\');
+
+Pluggable database created.
+
+SQL> -- deleting the PDB
+SQL>
+SQL> ALTER PLUGGABLE DATABASE gr_delete_pdb_27898 CLOSE IMMEDIATE;
+ALTER PLUGGABLE DATABASE gr_delete_pdb_27898 CLOSE IMMEDIATE
+*
+ERROR at line 1:
+ORA-65011: Pluggable database GR_DELETE_PDB_27898 does not exist.
+
+
+SQL> ALTER PLUGGABLE DATABASE gr_to_delete_pdb_27898 CLOSE IMMEDIATE;
+ALTER PLUGGABLE DATABASE gr_to_delete_pdb_27898 CLOSE IMMEDIATE
+*
+ERROR at line 1:
+ORA-65020: pluggable database GR_TO_DELETE_PDB_27898 already closed
+
+
+SQL> show pdbs
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB$SEED                       READ ONLY  NO
+         3 XEPDB1                         READ WRITE NO
+         4 GR_PDB_27898                   MOUNTED
+         5 GR_TO_DELETE_PDB_27898         MOUNTED
+SQL>
+SQL> DROP PLUGGABLE DATABASE gr_to_delete_pdb_27898 INCLUDING DATAFILES;
+
+Pluggable database dropped.
+
+SQL>  show pdbs
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB$SEED                       READ ONLY  NO
+         3 XEPDB1                         READ WRITE NO
+         4 GR_PDB_27898                   MOUNTED
+SQL> lsnrctl status
+SP2-0734: unknown command beginning "lsnrctl st..." - rest of line ignored.
+SQL> show pdbs
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB$SEED                       READ ONLY  NO
+         3 XEPDB1                         READ WRITE NO
+         4 GR_PDB_27898                   MOUNTED
+SQL> alter pluggable database gr_pdb_27898 OPEN;
+
+Pluggable database altered.
+
+SQL> SHOW PDBS
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         2 PDB$SEED                       READ ONLY  NO
+         3 XEPDB1                         READ WRITE NO
+         4 GR_PDB_27898                   READ WRITE NO
+SQL> alter session set container = gr_pdb_27898;
+
+Session altered.
+
+SQL> grant dba to grace_plsqlauca_27898;
+
+Grant succeeded.
+
+SQL> ALTER PLUGGABLE DATABASE GR_PDB_27898 OPEN;
+ALTER PLUGGABLE DATABASE GR_PDB_27898 OPEN
+*
+ERROR at line 1:
+ORA-65019: pluggable database GR_PDB_27898 already open
+
+
+SQL> ALTER SYSTEM REGISTER;
+
+System altered.
+
+SQL> ALTER SESSION SET CONTAINER = GR_PDB_27898;
+
+Session altered.
+
+SQL> ALTER PLUGGABLE DATABASE GR_PDB_27898 OPEN;
+ALTER PLUGGABLE DATABASE GR_PDB_27898 OPEN
+*
+ERROR at line 1:
+ORA-65019: pluggable database GR_PDB_27898 already open
+
+
+SQL> SHOW PDBS;
+
+    CON_ID CON_NAME                       OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+         4 GR_PDB_27898                   READ WRITE NO
+SQL> ALTER SESSION SET CONTAINER = CDB$ROOT;
+
+Session altered.
+
+SQL> ALTER SYSTEM REGISTER;
+
+System altered.
